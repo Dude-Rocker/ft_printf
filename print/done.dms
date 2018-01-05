@@ -1,0 +1,67 @@
+flags ok
+  - ok
+# - ok
+0 - ok
+- - ok
++ - ok
+
+size ok
+% - ok
+hh - ok
+h - ok
+l - ok
+ll - ok
+j - ok
+z - ok
+* - ok
+$ - ???
+L - ok
+' - 
+
+value ok
+val - ok
+.val - ok
+
+oper ok 
+e - ok
+E - ok
+f - ok
+F - ok
+g - ok
+G - ok
+a - 
+A - 
+n - ok
+s - ok
+S - ok
+p - 
+d, i - ok
+D - ok
+o - ok
+O - ok
+u - ok
+U - ok
+x - ok
+X - ok
+c - ok
+C - ok
+
+b - ok
+B - 
+r - 
+
+2 = ' ' +
+3 = 0 -
+4 = #
+5 = L
+6 = z
+7 = l
+8 = hh h (ll, j)
+9 = znaki
+10 = arg 1
+11 = arg 2 (-1)
+12 = '
+13 = bits
+0, 14 index
+1 sum
+15 bax
