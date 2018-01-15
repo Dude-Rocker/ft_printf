@@ -6,7 +6,7 @@
 /*   By: vgladush <vgladush@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 17:42:59 by vgladush          #+#    #+#             */
-/*   Updated: 2018/01/15 13:31:06 by vgladush         ###   ########.fr       */
+/*   Updated: 2018/01/15 14:54:56 by vgladush         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,49 @@ char			*ft_rotnb(char *s, int i)
 	}
 	*r = '\0';
 	return (res);
+}
+
+static	void	outunsec(char *s, int *i, int j, int c)
+{
+	while (i[11] != -2 && (i[16] -= 1) > 0)
+	{
+		if (!s[j] && ++j)
+			i[16] -= 1;
+		s[c++] = s[j++];
+	}
+	s[c] = '\0';
+	if (i[10] > (int)ft_strlen(s))
+	{
+		while (i[3] == 2 && i[10] > (int)ft_strlen(s))
+			s = ft_joinfree(s, " ", 1);
+		while (i[3] == 1 && i[10] > (int)ft_strlen(s))
+			s = ft_joinfree("0", s, 0);
+		while (i[10] > (int)ft_strlen(s))
+			s = ft_joinfree(" ", s, 0);
+	}
+	i[1] += write(1, s, ft_strlen(s));
+}
+
+void			ft_outun(char *s, int *i, int j, int c)
+{
+	int			b;
+
+	b = 0;
+	if (i[11] > -1)
+	{
+		while ((i[11] -= 1) > -1 && s[j])
+		{
+			if ((i[16] -= 1) > 0 && !s[++j])
+			{
+				while (s[b])
+					s[c++] = s[b++];
+				b = ++j;
+			}
+			else if (i[16] < 0)
+				break ;
+		}
+		i[11] = -2;
+		s[c] = '\0';
+	}
+	outunsec(s, i, j, c);
 }
