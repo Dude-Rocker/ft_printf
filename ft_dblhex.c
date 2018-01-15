@@ -6,7 +6,7 @@
 /*   By: vgladush <vgladush@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 13:50:22 by vgladush          #+#    #+#             */
-/*   Updated: 2018/01/15 16:09:22 by vgladush         ###   ########.fr       */
+/*   Updated: 2018/01/15 16:13:29 by vgladush         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ static	void	hexsec(uintmax_t z, char **s, int *i, int y)
 		s[1] = ft_itoabase(z, 16, y);
 	else
 		s[1] = ft_strdup("");
-	while ((int)ft_strlen(s[1]) < i[11])
-		s[1] = ft_joinfree("0", s[1], 2);
-	j = (int)ft_strlen(s[1]);
 	if (j == i[11] || (i[11] < 0 && j == 13))
 		while (s[1][--j] == '0')
 			s[1][j] = '\0';
+	while ((int)ft_strlen(s[1]) < i[11])
+		s[1] = ft_joinfree("0", s[1], 2);
+	j = (int)ft_strlen(s[1]);
 	s[0] = ft_itoabase(i[16], 1, 0);
 	if (s[0][0] != '-')
 		s[0] = ft_joinfree("+", s[0], 2);
