@@ -6,7 +6,7 @@
 /*   By: vgladush <vgladush@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 13:50:22 by vgladush          #+#    #+#             */
-/*   Updated: 2018/01/15 15:54:30 by vgladush         ###   ########.fr       */
+/*   Updated: 2018/01/15 15:58:58 by vgladush         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static	void	hexsec(uintmax_t z, char **s, int *i, int y)
 	s[0] = ft_joinfree(" ", s[0], 2);
 	s[0][0] = y + 15;
 	s[1] = ft_joinfree(s[1], s[0], 3);
-	if (i[11] && s[1][0] != 'p' && s[1][0] != 'P')
+	if (i[11] > 0)
 		s[1] = ft_joinfree(".", s[1], 2);
 	s[1] = ft_joinfree(" ", s[1], 2);
 	s[1][0] = i[17] + 48;
