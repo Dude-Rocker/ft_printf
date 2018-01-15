@@ -6,7 +6,7 @@
 /*   By: vgladush <vgladush@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 19:23:04 by vgladush          #+#    #+#             */
-/*   Updated: 2018/01/05 11:32:01 by vgladush         ###   ########.fr       */
+/*   Updated: 2018/01/12 18:34:37 by vgladush         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static	char	*checkshar(char *ito, int *i, char c)
 	if (c == 'o' || c == 'O')
 	{
 		i[10] -= 1;
-		res = ft_strjoin("0", ito);
-		free(ito);
+		if (*ito != '0')
+			res = ft_joinfree("0", ito, 2);
 	}
 	else if (!*ito || (*ito == '0' && !ito[1]))
 		return (ito);
@@ -33,8 +33,7 @@ static	char	*checkshar(char *ito, int *i, char c)
 		res[0] = '0';
 		res[1] = c;
 		res[2] = '\0';
-		ft_strcat(res, ito);
-		free(ito);
+		res = ft_joinfree(res, ito, 3);
 	}
 	else if ((c == 'X' || c == 'x') && (i[10] -= 2))
 		i[1] += ft_printf("0%c", c);
@@ -72,7 +71,7 @@ static	char	*tochsize(char *ito, int *i, int *r)
 
 static	char	*endprf(char *s, int *i, int r, char c)
 {
-	if (i[11] != -1)
+	if (i[11] > -1)
 		s = tochsize(s, i, &r);
 	if (i[4] && (c == 'X' || c == 'x' || c == 'o' || c == 'O'))
 		s = checkshar(s, i, c);
@@ -113,7 +112,7 @@ static	void	prfsec(char c, int *i, va_list *ar, char *ito)
 		ito = ft_itoabase((unsigned short)va_arg(*ar, int), i[13], c);
 	else if (i[8] == 1)
 		ito = ft_itoabase((unsigned char)va_arg(*ar, int), i[13], c);
-	if (i[10] > (int)ft_strlen(ito) || i[11] != -1 || i[4])
+	if (i[10] > (int)ft_strlen(ito) || i[11] > -1 || i[4])
 		ito = endprf(ito, i, ft_strlen(ito), c);
 	else if (i[2] == 2 && (i[1] += write(1, "+", 1)))
 		i[1] += write(1, ito, ft_strlen(ito));
@@ -138,7 +137,7 @@ void			ft_prfnbr(char c, int *i, va_list *ar, char *ito)
 			ito = ft_itoabase((short)va_arg(*ar, int), i[13], c);
 		else if (i[8] == 1)
 			ito = ft_itoabase((signed char)va_arg(*ar, int), i[13], c);
-		if (i[10] > (int)ft_strlen(ito) || i[11] != -1)
+		if (i[10] > (int)ft_strlen(ito) || i[11] > -1)
 			ito = endprf(ito, i, ft_strlen(ito), c);
 		else if (i[2] == 2 && *ito != '-' && (i[1] += write(1, "+", 1)))
 			i[1] += write(1, ito, ft_strlen(ito));

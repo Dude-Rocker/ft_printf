@@ -6,7 +6,7 @@
 /*   By: vgladush <vgladush@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 19:26:32 by vgladush          #+#    #+#             */
-/*   Updated: 2018/01/02 16:56:39 by vgladush         ###   ########.fr       */
+/*   Updated: 2018/01/12 12:28:14 by vgladush         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static	int		flbax(char *s, va_list *ar2, int *i)
 
 static	void	flg_sec(char *s, int *i, va_list *ar2)
 {
-	if (s[*i] == 'h' && s[*i + 1] != 'h')
+	if (s[*i] == 'h' && s[*i + 1] != 'h' && i[8] < 2)
 		i[8] = 2;
 	else if (s[*i] == 'h' && s[*i + 1] == 'h' && (*i += 1) && !i[8])
 		i[8] = 1;
@@ -126,7 +126,7 @@ static	int		ft_sprintf(char *str, va_list varg, int *i)
 
 int				ft_printf(const char *format, ...)
 {
-	int			i[16];
+	int			i[19];
 	va_list		varg;
 
 	i[0] = 0;
@@ -140,9 +140,9 @@ int				ft_printf(const char *format, ...)
 			i[1] += write(1, &format[i[0]], 1);
 		else if ((i[0] += 1))
 		{
-			i[15] = 1;
-			while (i[15] && (i[15] += 1))
-				i[i[15]] = 0;
+			i[18] = 1;
+			while (i[18] && (i[18] += 1))
+				i[i[18]] = 0;
 			i[11] = -1;
 			flg_fir((char *)format, &varg, i, &varg);
 		}

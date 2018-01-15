@@ -6,7 +6,7 @@
 /*   By: vgladush <vgladush@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 18:15:55 by vgladush          #+#    #+#             */
-/*   Updated: 2018/01/04 14:59:45 by vgladush         ###   ########.fr       */
+/*   Updated: 2018/01/15 13:30:11 by vgladush         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,19 @@ void				ft_prfoper(char *s, va_list *ar, int *i);
 void				ft_prfnbr(char c, int *i, va_list *ar, char *ito);
 char				*ft_itoabase(uintmax_t c, int l, int y);
 size_t				ft_strlen(const char *s);
-char				*unistr(wchar_t *s);
+char				*unistr(wchar_t *s, int *j);
 char				*unicd(wint_t c);
 void				ft_prfdbl(char c, int *i, va_list *ar);
 char				*ft_strcpy(char *dst, const char *src);
 char				*ft_strdup(const char *s1);
 uintmax_t			ft_basetoint(char *s, int base);
-char				*ft_strcat(char *s1, const char *s2);
-char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_joinfree(char *s1, char *s2, int j);
+void				ft_dblhex(long double c, int *i, int y);
+size_t				ft_wcharlen(const wchar_t *s);
+void				ft_precforp(char *s, int *i);
+void				ft_outun(char *s, int *i, int j, int c);
+char				*ft_qstr(char *s, int *i);
+void				strendf(char s, int *i);
+char				*ft_rotnb(char *s, int i);
 
 #endif

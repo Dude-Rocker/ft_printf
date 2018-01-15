@@ -6,7 +6,7 @@
 /*   By: vgladush <vgladush@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 13:50:22 by vgladush          #+#    #+#             */
-/*   Updated: 2018/01/08 13:51:49 by vgladush         ###   ########.fr       */
+/*   Updated: 2018/01/13 17:31:14 by vgladush         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,27 @@ static	void	hexsec(uintmax_t z, char **s, int *i, int y)
 	hexlast(s, i);
 }
 
+static	void	outunsec(char *s, int *i, int j, int c)
+{
+	while (i[11] != -2 && (i[16] -= 1) > 0)
+	{
+		if (!s[j] && ++j)
+			i[16] -= 1;
+		s[c++] = s[j++];
+	}
+	s[c] = '\0';
+	if (i[10] > (int)ft_strlen(s))
+	{
+		while (i[3] == 2 && i[10] > (int)ft_strlen(s))
+			s = ft_joinfree(s, " ", 1);
+		while (i[3] == 1 && i[10] > (int)ft_strlen(s))
+			s = ft_joinfree("0", s, 0);
+		while (i[10] > (int)ft_strlen(s))
+			s = ft_joinfree(" ", s, 0);
+	}
+	i[1] += write(1, s, ft_strlen(s));
+}
+
 void			ft_dblhex(long double c, int *i, int y)
 {
 	char		**s;
@@ -70,7 +91,7 @@ void			ft_dblhex(long double c, int *i, int y)
 		c *= 2;
 	if (c != 0)
 		c -= 1;
-	i[17] = (i[11] != -1 ? i[11] : 13);
+	i[17] = (i[11] > -1 ? i[11] : 13);
 	while (c != 0 && (i[17] -= 1) > -1)
 		c *= 16;
 	if (c == 0)
@@ -80,4 +101,28 @@ void			ft_dblhex(long double c, int *i, int y)
 	else
 		i[17] = 1;
 	hexsec(c + 0.5, s, i, y);
+}
+
+void			ft_outun(char *s, int *i, int j, int c)
+{
+	int			b;
+
+	b = 0;
+	if (i[11] > -1)
+	{
+		while ((i[11] -= 1) > -1 && s[j])
+		{
+			if ((i[16] -= 1) > 0 && !s[++j])
+			{
+				while (s[b])
+					s[c++] = s[b++];
+				b = ++j;
+			}
+			else if (i[16] < 0)
+				break ;
+		}
+		i[11] = -2;
+		s[c] = '\0';
+	}
+	outunsec(s, i, j, c);
 }

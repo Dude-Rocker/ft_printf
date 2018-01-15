@@ -6,7 +6,7 @@
 /*   By: vgladush <vgladush@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 18:54:53 by vgladush          #+#    #+#             */
-/*   Updated: 2018/01/05 11:32:00 by vgladush         ###   ########.fr       */
+/*   Updated: 2018/01/15 12:15:27 by vgladush         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ static	char	*enddbl(char *s, int *i, int r, int l)
 		i[1] += write(1, &s[i[14]], ft_strlen(&s[i[14]]));
 	else if (i[3] == 2)
 		i[1] += write(1, &s[i[14]], ft_strlen(&s[i[14]]));
-	while (i[3] != 1 && ((i[10] -= 1) - r > -1))
+	while (i[3] != 1 && ((i[10] -= 1) - r > -2))
 		i[1] += write(1, " ", 1);
 	if (i[2] == 2 && *s != '-' && i[3] != 2)
 		i[1] += write(1, "+", 1);
-	while (i[3] == 1 && (i[10] -= 1) - r > -1)
+	while (i[3] == 1 && (i[10] -= 1) - r > -2)
 		i[1] += write(1, "0", 1);
 	if (i[3] != 2)
 		i[1] += write(1, &s[i[14]], ft_strlen(&s[i[14]]));
@@ -85,9 +85,34 @@ static	int		dbltoa(long double c, int i, char **s, long double y)
 		c -= j;
 	}
 	s[1] = ft_itoabase(x, 0, '0');
-	if (ft_strlen(s[0]) + ft_strlen(s[1]) > 10)
+	if (ft_strlen(s[0]) + ft_strlen(s[1]) > 8)
 		return (0);
 	return (1);
+}
+
+void			ft_precforp(char *s, int *i)
+{
+	if (i[11] > -1 && i[3] == 1)
+		i[3] = 0;
+	if (*s == '0' && !s[1] && !i[11])
+	{
+		free(s);
+		s = ft_strdup("0x");
+	}
+	else
+	{
+		while (i[3] == 1 && i[10] - 2 > (int)ft_strlen(s))
+			s = ft_joinfree("0", s, 2);
+		while (i[11] > (int)ft_strlen(s))
+			s = ft_joinfree("0", s, 2);
+		s = ft_joinfree("0x", s, 2);
+	}
+	while (i[3] == 2 && i[10] > (int)ft_strlen(s))
+		s = ft_joinfree(s, " ", 1);
+	while (i[3] != 2 && i[10] > (int)ft_strlen(s))
+		s = ft_joinfree(" ", s, 2);
+	i[1] += write(1, s, ft_strlen(s));
+	free(s);
 }
 
 void			ft_prfdbl(char c, int *i, va_list *ar)

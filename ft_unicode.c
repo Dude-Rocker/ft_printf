@@ -6,7 +6,7 @@
 /*   By: vgladush <vgladush@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 14:06:56 by vgladush          #+#    #+#             */
-/*   Updated: 2018/01/05 11:32:04 by vgladush         ###   ########.fr       */
+/*   Updated: 2018/01/13 15:51:01 by vgladush         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,24 +96,28 @@ char			*unicd(wint_t c)
 	return (res);
 }
 
-char			*unistr(wchar_t *s)
+char			*unistr(wchar_t *s, int *j)
 {
-	int			j;
 	int			i;
 	char		*str;
 	char		*tmp;
 
-	j = 0;
 	i = 0;
-	if (!s || !(str = (char *)malloc(sizeof(char) * 10000)))
+	if (!s || !(str = (char *)malloc(sizeof(char) * ft_wcharlen(s) + 1)))
 		return (0);
 	while (*s)
 	{
 		tmp = unicd(*s++);
 		while (tmp[i])
-			str[j++] = tmp[i++];
+		{
+			str[j[16]] = tmp[i++];
+			j[16] += 1;
+		}
+		str[j[16]] = '\0';
+		j[16] += 1;
 		free(tmp);
 		i = 0;
 	}
+	str[j[16]] = '\0';
 	return (str);
 }

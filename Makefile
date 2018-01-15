@@ -14,7 +14,7 @@ NAME	=	libftprintf.a
 
 FUN		=	ft_nbrlen.c ft_printf.c ft_prfoper.c ft_atoi.c ft_prfnbr.c \
 			ft_itoabase.c ft_strlen.c ft_unicode.c ft_prfdbl.c ft_strcpy.c \
-			ft_strdup.c ft_strcat.c ft_strjoin.c
+			ft_strdup.c ft_joinfree.c ft_dblhex.c ft_qstr.c
 			
 FUNDIR	=	./
 

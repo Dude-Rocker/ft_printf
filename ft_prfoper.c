@@ -5,101 +5,119 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vgladush <vgladush@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/04 19:32:34 by vgladush          #+#    #+#             */
-/*   Updated: 2018/01/05 11:32:05 by vgladush         ###   ########.fr       */
+/*   Created: 2017/12/29 16:50:45 by vgladush          #+#    #+#             */
+/*   Updated: 2018/01/15 13:31:30 by vgladush         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	void	strendf(char s, int *i)
+void			strendf(char s, int *i)
 {
-	if (!s && i[13] != 1)
+	if (!s && i[13] != 1 && i[8] != 9)
 		*i -= 1;
-	else if ((i[1] += 1))
+	else
 	{
 		if (i[3] == 2)
 		{
-			write(1, &s, 1);
+			if (s)
+				i[1] += write(1, &s, 1);
+			else
+				i[1] += write(1, "\0", 1);
 			while ((i[10] -= 1) > 0)
 				i[1] += write(1, " ", 1);
-		}
-		else if (i[3] == 1)
-		{
-			while ((i[10] -= 1) > 0)
-				i[1] += write(1, "0", 1);
-			write(1, &s, 1);
 		}
 		else
 		{
-			while ((i[10] -= 1) > 0)
+			while (i[3] == 1 && (i[10] -= 1) > 0)
+				i[1] += write(1, "0", 1);
+			while (!i[3] && (i[10] -= 1) > 0)
 				i[1] += write(1, " ", 1);
-			if (s || (i[1] -= 1) == -2)
-				write(1, &s, 1);
+			if (s)
+				i[1] += write(1, &s, 1);
+			else if (i[8] == 9)
+				i[1] += write(1, "\0", 1);
 		}
 	}
 }
 
-static	void	outstr(char *s, int *i)
+static	void	prstsec(va_list *ar, int *i, char *un)
 {
-	char		*res;
-	int			j;
-
-	j = -1;
-	if (i[11] == -1 || i[11] > (int)ft_strlen(s))
-		res = ft_strdup(s);
-	else
+	if (!(un = va_arg(*ar, char *)))
 	{
-		if (!(res = (char *)malloc(sizeof(char) * i[11] + 1)))
-			return ;
-		res[i[11]] = '\0';
-		while (++j < i[11])
-			res[j] = s[j];
-	}
-	i[10] -= (int)ft_strlen(res) - 1;
-	if (i[3] != 2 && (i[13] = 1))
-		strendf(res[0], i);
-	if (res[i[13]])
-		i[1] += write(1, &res[i[13]], ft_strlen(&res[i[13]]));
-	while ((i[10] -= 1) > 0)
-		i[1] += write(1, " ", 1);
-	free(res);
-}
-
-static	void	prfstr(char s, va_list *ar, int *i)
-{
-	char		*un;
-	char		c;
-
-	un = 0;
-	if (i[7] || s == 'S')
-	{
-		if (s == 'c' || s == 'C')
-			if (!(un = unicd(va_arg(*ar, int))))
-				un = ft_strdup("");
-		if (s == 's' || s == 'S')
-			if (!(un = unistr(va_arg(*ar, wchar_t *))))
-				un = ft_strdup("(null)");
-		outstr(un, i);
+		if (i[11] < 0)
+			un = ft_strdup("(null)");
+		else
+			un = ft_strdup("");
+		while (i[11] > (int)ft_strlen(un))
+			un = ft_joinfree("0", un, 2);
+		ft_qstr(un, i);
 		free(un);
 	}
 	else
+		ft_qstr(un, i);
+}
+
+static	void	prfstr(char s, va_list *ar, int *i, char *un)
+{
+	if (i[7] || s == 'S' || s == 'C')
 	{
-		if ((s == 'c' || s == 'C') && (c = va_arg(*ar, int)))
-			strendf(c, i);
-		else
-			outstr(va_arg(*ar, char *), i);
+		if ((s == 'c' || s == 'C') && (i[8] = 9)
+			&& (i[16] = -1))
+		{
+			if (!(un = unicd(va_arg(*ar, int))) && (i[10] -= 1))
+				un = ft_strdup("");
+			ft_qstr(un, i);
+		}
+		if (s == 's' || s == 'S')
+		{
+			if (!(un = unistr(va_arg(*ar, wchar_t *), i))
+				&& (i[16] = 7))
+				un = ft_strdup("(null)");
+			ft_outun(un, i, 0, 0);
+		}
+		free(un);
 	}
+	else
+		prstsec(ar, i, un);
+}
+
+static	void	opersec(char *s, va_list *ar, int *i, char *st)
+{
+	if (s[*i] == 'Z')
+		ft_qstr(ft_rotnb(va_arg(*ar, char *), 42), i);
+	else if (s[*i] == 'Y')
+		ft_qstr(ft_rotnb(va_arg(*ar, char *), -42), i);
+	else if (s[*i] == 'a' || s[*i] == 'A')
+	{
+		if (i[5])
+			ft_dblhex(va_arg(*ar, long double), i, s[*i]);
+		else
+			ft_dblhex(va_arg(*ar, double), i, s[*i]);
+	}
+	else if (DEVAL(s[*i]) || DEVA2(s[*i]))
+		ft_prfnbr(s[*i], i, ar, st);
+	else if (s[*i] == 'p' && (st = ft_itoabase(va_arg(*ar, uintmax_t), 16, 97)))
+		ft_precforp(st, i);
+	else if (s[*i] == 'R' || s[*i] == 'r' || s[*i] == 'B')
+	{
+		if (s[*i] == 'R')
+			i[13] = 16;
+		else
+			i[13] = (s[*i] == 'r' ? 8 : 2);
+		ft_qstr(ft_itoabase(ft_basetoint(va_arg(*ar, char *), i[13]), 0, 0), i);
+	}
+	else
+		ft_prfdbl(s[*i], i, ar);
 }
 
 void			ft_prfoper(char *s, va_list *ar, int *i)
 {
-	char		*str;
+	char		*st;
+	char		c;
 
-	str = NULL;
-	if (OPER(s[*i]) && OPE2(s[*i]) && OPE3(s[*i]))
-		strendf(s[*i], i);
-	else if (s[*i] == 'n')
+	st = NULL;
+	if (s[*i] == 'n')
 	{
 		if (i[8] != 2 && i[8] != 1)
 			*va_arg(*ar, unsigned int *) = i[1];
@@ -108,10 +126,16 @@ void			ft_prfoper(char *s, va_list *ar, int *i)
 		else if (i[8] == 1)
 			*va_arg(*ar, int *) = (unsigned char)i[1];
 	}
-	else if (DEVAL(s[*i]) || DEVA2(s[*i]))
-		ft_prfnbr(s[*i], i, ar, str);
 	else if (s[*i] == 'c' || s[*i] == 'C' || s[*i] == 's' || s[*i] == 'S')
-		prfstr(s[*i], ar, i);
+	{
+		if (!i[7] && s[*i] == 'c' && ((c = va_arg(*ar, int))
+			|| (i[8] = 9)))
+			strendf(c, i);
+		else
+			prfstr(s[*i], ar, i, st);
+	}
+	else if (OPER(s[*i]) && OPE2(s[*i]) && OPE3(s[*i]))
+		strendf(s[*i], i);
 	else
-		ft_prfdbl(s[*i], i, ar);
+		opersec(s, ar, i, st);
 }
