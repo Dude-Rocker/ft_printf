@@ -1,4 +1,4 @@
-# ft_printf (prototype similar to printf)
+# [ft_printf](https://github.com/Dude-Rocker/resources/blob/master/ft_printf.pdf) (prototype similar to printf)
 
 ## The project of school 42 and is the first project of branch of algorithms.
 ## Also this project is the addition (extension) of the main libft library
